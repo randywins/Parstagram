@@ -58,7 +58,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell") as! commentCell
             
             let comment = comments[indexPath.row - 1]
-            cell.nameLabel.text = comment["text"] as? String
+            cell.commentLabel.text = comment["text"] as? String
             
             let user = comment["author"] as! PFUser
             cell.nameLabel.text = user.username
@@ -76,7 +76,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = posts[indexPath.section]
-        let comment = (post["Comments"] as? [PFObject]) ?? []
+        let comment = (post["comments"] as? [PFObject]) ?? []
         
         if indexPath.row == comment.count + 1 {
             showsCommentBar = true
@@ -134,11 +134,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.reloadData()
         }
     }
+}
     
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
             // Create the comment
         print ("Hello")
-        let comment = PFObject(className: "Comments")
+        let comment = PFObject(className: "comments")
         comment["text"] = text
         comment["post"] = selectedPost
         comment["author"] = PFUser.current()!
@@ -172,7 +173,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
     }
     */
-    }
+    
     
     @IBAction func onLogoutButton(_ sender: Any) {
         
